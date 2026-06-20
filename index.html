@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@username — placeholder</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0B0E14;
+      --surface: #13161E;
+      --border: #1E2433;
+      --text-primary: #E4E8F0;
+      --text-muted: #5A6478;
+      --text-dim: #3A4155;
+      --accent: #E8A030;
+      --accent-dim: rgba(232, 160, 48, 0.12);
+      --accent-glow: rgba(232, 160, 48, 0.06);
+      --indigo: #6B8AFF;
+      --indigo-dim: rgba(107, 138, 255, 0.1);
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Inter', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: var(--sans);
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .vignette {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 70% at 50% 50%, transparent 40%, var(--bg) 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+    }
+
+    .label {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .label::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    h1 {
+      font-family: var(--mono);
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 span.at {
+      color: var(--accent);
+    }
+
+    .typewriter-wrap {
+      font-family: var(--mono);
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      font-weight: 300;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      height: 1.6em;
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .typewriter-prefix {
+      color: var(--text-dim);
+      margin-right: 6px;
+      flex-shrink: 0;
+    }
+
+    #typewriter-text {
+      color: var(--indigo);
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background: var(--accent);
+      margin-left: 2px;
+      animation: blink 1s step-end infinite;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 2rem 0;
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 520px) {
+      .section-grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+
+    .card-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.75rem;
+    }
+
+    .stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 400;
+      padding: 3px 10px;
+      border-radius: 4px;
+      color: var(--text-primary);
+      background: var(--border);
+      border: 1px solid transparent;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .tag:hover {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    .tag.accent {
+      color: var(--accent);
+      background: var(--accent-dim);
+      border-color: rgba(232, 160, 48, 0.25);
+    }
+
+    .tag.indigo {
+      color: var(--indigo);
+      background: var(--indigo-dim);
+      border-color: rgba(107, 138, 255, 0.2);
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+    }
+
+    .status-row + .status-row {
+      margin-top: 8px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-dim);
+      flex-shrink: 0;
+    }
+
+    .status-dot.green { background: #4CC98A; }
+    .status-dot.amber { background: var(--accent); }
+
+    .links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .link {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .link:hover { color: var(--accent); }
+
+    .link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 1.5rem;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+  <div class="vignette"></div>
+
+  <main>
+    <div class="container">
+      <p class="label">open to work · github.com/username</p>
+
+      <h1><span class="at">@</span>username</h1>
+
+      <div class="typewriter-wrap">
+        <span class="typewriter-prefix">$ whoami /</span>
+        <span id="typewriter-text"></span>
+        <span class="cursor"></span>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section-grid">
+        <div class="card">
+          <p class="card-label">tech stack</p>
+          <div class="stack">
+            <span class="tag accent">Python</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Rust</span>
+            <span class="tag indigo">React</span>
+            <span class="tag">Node.js</span>
+            <span class="tag">Docker</span>
+            <span class="tag indigo">PostgreSQL</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <p class="card-label">right now</p>
+          <div class="status-row">
+            <span class="status-dot green"></span>
+            building something new
+          </div>
+          <div class="status-row">
+            <span class="status-dot amber"></span>
+            open to collaborations
+          </div>
+          <div class="status-row">
+            <span class="status-dot"></span>
+            learning distributed systems
+          </div>
+        </div>
+      </div>
+
+      <div class="links">
+        <a href="https://github.com/username" class="link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          github
+        </a>
+        <a href="https://linkedin.com/in/username" class="link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          linkedin
+        </a>
+        <a href="mailto:you@example.com" class="link">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          email
+        </a>
+        <a href="https://yoursite.dev" class="link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          website
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer>built with html · hosted on github pages · update me</footer>
+
+  <script>
+    const roles = [
+      'software engineer',
+      'backend developer',
+      'open source contributor',
+      'problem solver',
+      'coffee-driven coder',
+    ];
+
+    let roleIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+    const el = document.getElementById('typewriter-text');
+    const speed = { type: 80, delete: 40, pause: 2000 };
+
+    function tick() {
+      const current = roles[roleIndex];
+      if (!deleting) {
+        el.textContent = current.slice(0, charIndex + 1);
+        charIndex++;
+        if (charIndex === current.length) {
+          setTimeout(() => { deleting = true; tick(); }, speed.pause);
+          return;
+        }
+        setTimeout(tick, speed.type);
+      } else {
+        el.textContent = current.slice(0, charIndex - 1);
+        charIndex--;
+        if (charIndex === 0) {
+          deleting = false;
+          roleIndex = (roleIndex + 1) % roles.length;
+          setTimeout(tick, 300);
+          return;
+        }
+        setTimeout(tick, speed.delete);
+      }
+    }
+
+    tick();
+  </script>
+</body>
+</html>
