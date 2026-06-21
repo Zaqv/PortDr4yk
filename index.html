@@ -4,33 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dr4yk Portfolio | Roblox Studio Developer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <!--
+        FAVICON INSTRUCTIONS:
+        1. Place your image file (e.g. favicon.png) in the SAME folder as this index.html
+        2. Make sure the href below matches your filename exactly
+        3. Save and refresh — the browser picks it up automatically.
+        Supported formats: .png  .jpg  .ico  .svg  .webp
+    -->
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --pixel-font: 'Press Start 2P', cursive;
+            --gothic-font: 'UnifrakturMaguntia', cursive;
+            --green-bright: #4caf4c;
+            --green-dim: #1a4a1a;
+            --green-glow: rgba(76,175,76,0.35);
+            --surface: rgba(8,24,8,0.65);
+            --border: rgba(60,140,60,0.25);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
         html {
             scroll-behavior: smooth;
             scrollbar-width: thin;
-            scrollbar-color: #2d5a2d #0a120a;
+            scrollbar-color: var(--green-bright) transparent;
         }
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a120a;
-        }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb {
-            background: #2d5a2d;
-            border-radius: 10px;
+            background: linear-gradient(180deg, #5fcc5f, #1a4a1a);
+            border-radius: 99px;
         }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #7fe07f, #2d6a2d); }
 
         body {
             font-family: var(--pixel-font);
@@ -42,643 +52,579 @@
             line-height: 1.8;
         }
 
+        /* ── LOADING ── */
         #loadingScreen {
-            position: fixed;
-            inset: 0;
-            background: #020802;
-            z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.5s, visibility 0.5s;
+            position: fixed; inset: 0; background: #000;
+            z-index: 99999; display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
-        #loadingScreen.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
+        #loadingScreen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         .loader-ring {
-            width: 60px;
-            height: 60px;
-            border: 3px solid #1a3a1a;
-            border-top: 3px solid #4caf4c;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 18px;
-            box-shadow: 0 0 25px #2d7a2d;
+            width: 60px; height: 60px;
+            border: 3px solid #1a3a1a; border-top: 3px solid var(--green-bright);
+            border-radius: 50%; animation: spin 1s linear infinite;
+            margin: 0 auto 18px; box-shadow: 0 0 25px #2d7a2d;
         }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .loader-text {
-            font-size: 1.8rem;
-            letter-spacing: 5px;
-            color: #b0f0b0;
-            text-shadow: 0 0 15px #2d7a2d;
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loader-text { font-size: 1.8rem; letter-spacing: 5px; color: #b0f0b0; text-shadow: 0 0 15px #2d7a2d; }
 
+        /* ── TRANSITION OVERLAY (pure black, no green leak) ── */
+        #overlay {
+            position: fixed; inset: 0; background: #000;
+            z-index: 9000; pointer-events: none;
+            opacity: 0; transition: opacity 0.22s ease;
+        }
+        #overlay.blocking { pointer-events: all; }
+
+        /* ── BG ── */
         .bg-gradient {
-            position: fixed;
-            inset: 0;
-            z-index: -2;
+            position: fixed; inset: 0; z-index: -2;
             background: radial-gradient(ellipse at 40% 20%, #0f2f0f 0%, #020602 70%);
         }
-
-        .stars-container {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        .star {
-            position: absolute;
-            width: var(--size);
-            height: var(--size);
-            animation: starLife var(--lifetime) ease-in-out forwards;
-            opacity: 0;
-        }
-        .star::before, .star::after {
-            content: '';
-            position: absolute;
-            background: var(--color);
-            box-shadow: 0 0 var(--glow) var(--color);
-        }
-        .star::before {
-            width: 100%;
-            height: 1px;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-        }
-        .star::after {
-            width: 1px;
-            height: 100%;
-            left: 50%;
-            top: 0;
-            transform: translateX(-50%);
-        }
+        .stars-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+        .star { position: absolute; width: var(--size); height: var(--size); animation: starLife var(--lifetime) ease-in-out forwards; opacity: 0; }
+        .star::before, .star::after { content: ''; position: absolute; background: var(--color); box-shadow: 0 0 var(--glow) var(--color); }
+        .star::before { width: 100%; height: 1px; top: 50%; transform: translateY(-50%); }
+        .star::after  { width: 1px; height: 100%; left: 50%; transform: translateX(-50%); }
         @keyframes starLife {
-            0% { opacity: 0; transform: scale(0) rotate(0deg); }
-            20% { opacity: 0.9; transform: scale(1) rotate(45deg); }
-            80% { opacity: 0.3; transform: scale(0.7) rotate(180deg); }
+            0%   { opacity: 0; transform: scale(0) rotate(0deg); }
+            20%  { opacity: 0.9; transform: scale(1) rotate(45deg); }
+            80%  { opacity: 0.3; transform: scale(0.7) rotate(180deg); }
             100% { opacity: 0; transform: scale(0) rotate(360deg); }
         }
 
+        /* ── NAVBAR ── */
         .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            padding: 1rem 2rem;
-            background: rgba(5, 15, 5, 0.6);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(60, 140, 60, 0.2);
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 0.75rem 1.5rem;
+            background: rgba(3,8,3,0.75); backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(60,140,60,0.18);
         }
         .nav-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            max-width: 1300px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center; gap: 1rem;
         }
         .nav-logo {
-            font-size: 1.2rem;
+            font-size: 1rem; cursor: pointer;
             background: linear-gradient(180deg, #c0f0c0, #3d8b3d);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            cursor: pointer;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            flex-shrink: 0; user-select: none;
         }
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            list-style: none;
-        }
+        .nav-right { display: flex; align-items: center; gap: 0.5rem; }
+        .nav-links { display: flex; gap: 0.2rem; list-style: none; align-items: center; }
         .nav-link {
-            color: #b0d0b0;
-            background: none;
-            border: none;
-            font-size: 0.6rem;
-            font-family: var(--pixel-font);
-            padding: 0.5rem 0.8rem;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: 0.3s;
+            color: #a0c8a0; background: none; border: none;
+            font-size: 0.52rem; font-family: var(--pixel-font);
+            padding: 0.4rem 0.65rem; cursor: pointer; border-radius: 5px;
+            transition: color 0.2s, background 0.2s;
+            -webkit-tap-highlight-color: transparent;
         }
-        .nav-link:hover, .nav-link.active {
-            color: #fff;
-            background: rgba(76, 175, 76, 0.2);
-        }
-        .nav-toggle {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            flex-direction: column;
-            gap: 5px;
-        }
-        .nav-toggle span {
-            width: 28px;
-            height: 3px;
-            background: #a0e0a0;
-            border-radius: 3px;
-            display: block;
-        }
+        .nav-link:hover, .nav-link.active { color: #fff; background: rgba(76,175,76,0.18); }
 
-        @media (max-width: 768px) {
+        /* Language toggle */
+        .lang-toggle {
+            display: flex; align-items: center;
+            background: rgba(10,28,10,0.8); border: 1px solid var(--border);
+            border-radius: 20px; overflow: hidden; flex-shrink: 0;
+        }
+        .lang-btn {
+            background: none; border: none; color: #6a926a;
+            font-family: var(--pixel-font); font-size: 0.44rem;
+            padding: 0.35rem 0.6rem; cursor: pointer; line-height: 1;
+            transition: color 0.2s, background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .lang-btn.active { background: rgba(76,175,76,0.22); color: #d0ffd0; }
+        .lang-sep { width: 1px; height: 12px; background: var(--border); }
+
+        .nav-toggle {
+            display: none; background: none; border: none; cursor: pointer;
+            flex-direction: column; gap: 5px; padding: 4px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .nav-toggle span { width: 24px; height: 2px; background: #a0e0a0; border-radius: 3px; display: block; transition: 0.3s; }
+
+        @media (max-width: 640px) {
             .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 70%;
-                height: 100vh;
-                background: rgba(5, 15, 5, 0.97);
-                backdrop-filter: blur(30px);
-                flex-direction: column;
-                justify-content: center;
-                gap: 2rem;
-                transition: 0.4s;
+                position: fixed; top: 0; right: -100%; width: min(75vw, 280px); height: 100vh;
+                background: rgba(3,10,3,0.97); backdrop-filter: blur(30px);
+                flex-direction: column; justify-content: center; gap: 1.2rem;
+                transition: right 0.35s cubic-bezier(0.4,0,0.2,1);
+                border-left: 1px solid var(--border);
             }
             .nav-links.open { right: 0; }
+            .nav-link { font-size: 0.6rem; padding: 0.7rem 1.2rem; }
             .nav-toggle { display: flex; }
         }
 
-        .page {
-            display: none;
-            min-height: 100vh;
-        }
-        .page.active {
-            display: block;
-        }
+        /* ── PAGES ── */
+        .page { display: none; min-height: 100vh; }
+        .page.active { display: block; }
 
+        /* ── HERO ── */
         .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
+            min-height: 100vh; display: flex; align-items: center;
+            justify-content: center; text-align: center; padding: 6rem 1.5rem 3rem;
         }
+        .hero-inner { max-width: 700px; }
         .hero-title {
-            font-size: clamp(1.8rem, 6vw, 3rem);
+            font-size: clamp(1.4rem, 5.5vw, 3rem);
             background: linear-gradient(180deg, #e0ffe0, #4caf4c, #1a4a1a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1.5rem;
-            animation: titleGlow 3s infinite alternate;
-            line-height: 1.5;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 1.2rem;
+            animation: titleGlow 3s infinite alternate; line-height: 1.5;
         }
         @keyframes titleGlow {
-            0% { filter: drop-shadow(0 0 20px rgba(60,180,60,0.4)); }
-            100% { filter: drop-shadow(0 0 40px rgba(80,200,80,0.7)); }
+            0%   { filter: drop-shadow(0 0 18px rgba(60,180,60,0.4)); }
+            100% { filter: drop-shadow(0 0 36px rgba(80,200,80,0.7)); }
         }
-        .hero-subtitle {
-            font-size: 0.55rem;
-            color: #a0d0a0;
-            margin-bottom: 2rem;
-        }
-        .scroll-text {
-            font-size: 0.5rem;
-            color: #7fa37f;
-        }
+        .hero-subtitle { font-size: clamp(0.42rem, 1.5vw, 0.58rem); color: #9cc49c; margin-bottom: 2rem; }
+        .scroll-text { font-size: 0.46rem; color: #6a966a; }
         .scroll-indicator {
-            width: 28px;
-            height: 48px;
-            border: 2px solid #3d7a3d;
-            border-radius: 20px;
-            display: inline-flex;
-            justify-content: center;
-            position: relative;
-            margin-top: 1rem;
+            width: 26px; height: 44px; border: 2px solid #3d7a3d;
+            border-radius: 20px; display: inline-flex; justify-content: center;
+            position: relative; margin-top: 0.8rem;
         }
         .scroll-dot {
-            width: 6px;
-            height: 6px;
-            background: #6fbf6f;
-            border-radius: 50%;
-            position: absolute;
-            top: 8px;
+            width: 5px; height: 5px; background: #6fbf6f;
+            border-radius: 50%; position: absolute; top: 7px;
             animation: scrollDot 2s infinite;
         }
         @keyframes scrollDot {
-            0%, 100% { top: 8px; opacity: 1; }
-            50% { top: 28px; opacity: 0.3; }
+            0%, 100% { top: 7px; opacity: 1; }
+            50%       { top: 26px; opacity: 0.3; }
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 7rem 1.5rem 3rem;
-        }
-        .section-title {
-            font-size: 1.2rem;
-            text-align: center;
-            margin-bottom: 3rem;
-            color: #d0f0d0;
-        }
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            padding-bottom: 4rem;
-        }
+        /* ── CONTAINER ── */
+        .container { max-width: 1200px; margin: 0 auto; padding: 6rem 1.5rem 3rem; }
+        @media (max-width: 480px) { .container { padding: 5.5rem 1rem 2.5rem; } }
+
+        .section-title { font-size: clamp(0.9rem, 3vw, 1.2rem); text-align: center; margin-bottom: 2.5rem; color: #d0f0d0; }
+
+        /* ── CATEGORY CARDS ── */
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; padding-bottom: 3rem; }
         .category-card {
-            background: rgba(5, 20, 5, 0.55);
-            backdrop-filter: blur(20px);
-            border: 1.5px solid rgba(60, 140, 60, 0.3);
-            border-radius: 16px;
-            padding: 2rem 1.5rem;
-            cursor: pointer;
-            transition: 0.35s;
-            text-align: center;
+            background: var(--surface); backdrop-filter: blur(20px);
+            border: 1px solid var(--border); border-radius: 18px;
+            padding: 2rem 1.5rem; cursor: pointer;
+            transition: transform 0.32s ease, border-color 0.32s ease, box-shadow 0.32s ease;
+            text-align: center; position: relative; overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
+        .category-card::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(76,175,76,0.07) 0%, transparent 60%);
+            opacity: 0; transition: opacity 0.32s; border-radius: inherit;
+        }
+        .category-card:hover::before { opacity: 1; }
         .category-card:hover {
-            transform: translateY(-10px);
-            border-color: #4caf4c;
-            box-shadow: 0 0 25px rgba(60, 180, 60, 0.4);
+            transform: translateY(-8px); border-color: rgba(76,175,76,0.6);
+            box-shadow: 0 10px 40px rgba(60,180,60,0.22), inset 0 1px 0 rgba(76,175,76,0.12);
         }
         .card-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 1rem;
-            color: #8fdf8f;
+            width: 52px; height: 52px; margin: 0 auto 1.1rem; color: #8fdf8f;
+            filter: drop-shadow(0 0 7px rgba(76,175,76,0.4)); transition: filter 0.3s;
         }
-        .category-card h3 {
-            font-size: 0.9rem;
-            margin-bottom: 0.7rem;
-        }
-        .category-card p {
-            color: #9bc09b;
-            font-size: 0.5rem;
-            margin-bottom: 1rem;
-        }
+        .category-card:hover .card-icon { filter: drop-shadow(0 0 14px rgba(76,175,76,0.65)); }
+        .category-card h3 { font-size: 0.82rem; margin-bottom: 0.6rem; color: #d0ffd0; }
+        .category-card p { color: #8aad8a; font-size: 0.46rem; margin-bottom: 1.1rem; line-height: 2; }
         .card-tag {
-            display: inline-block;
-            background: rgba(40, 100, 40, 0.5);
-            border: 1px solid #3d7a3d;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.45rem;
-            color: #b0f0b0;
+            display: inline-block; background: rgba(40,100,40,0.4);
+            border: 1px solid rgba(61,122,61,0.55); padding: 0.28rem 0.85rem;
+            border-radius: 20px; font-size: 0.41rem; color: #b0f0b0;
         }
 
-        .page-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
+        /* ── PAGE HEADER ── */
+        .page-header { text-align: center; margin-bottom: 2rem; }
         .page-header h1 {
-            font-size: 1.8rem;
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
             background: linear-gradient(180deg, #d0ffd0, #4caf4c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 0.7rem;
         }
-        .page-header p {
-            color: #9bc09b;
-            font-size: 0.55rem;
+        .page-header p { color: #8aad8a; font-size: clamp(0.42rem, 1.4vw, 0.52rem); }
+
+        /* ── VFX DISCLAIMER ── */
+        .vfx-disclaimer {
+            background: rgba(18,52,18,0.42); border: 1px solid rgba(76,175,76,0.32);
+            border-left: 3px solid var(--green-bright); border-radius: 10px;
+            padding: 0.85rem 1.1rem; margin-bottom: 2rem;
+            display: flex; align-items: flex-start; gap: 0.75rem;
+            font-size: clamp(0.4rem, 1.3vw, 0.46rem); color: #9acd9a; line-height: 2;
         }
+        .vfx-disclaimer svg { flex-shrink: 0; margin-top: 1px; color: var(--green-bright); }
+
+        /* ── PROJECT CARDS ── */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+            gap: 1.6rem;
         }
         .project-card {
-            background: rgba(10, 30, 10, 0.6);
-            backdrop-filter: blur(18px);
-            border: 1px solid rgba(50, 120, 50, 0.35);
-            border-radius: 16px;
+            background: var(--surface); backdrop-filter: blur(18px);
+            border: 1px solid rgba(50,120,50,0.26); border-radius: 18px;
             overflow: hidden;
-            transition: 0.35s;
+            transition: transform 0.32s ease, border-color 0.32s ease, box-shadow 0.32s ease;
+            will-change: transform;
+            -webkit-tap-highlight-color: transparent;
         }
         .project-card:hover {
-            transform: translateY(-8px);
-            border-color: #4caf4c;
+            transform: translateY(-7px); border-color: rgba(76,175,76,0.52);
+            box-shadow: 0 14px 44px rgba(60,180,60,0.18);
         }
         .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            background: #0a1a0a;
+            position: relative; padding-bottom: 56.25%; height: 0; background: #050e05;
         }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .project-info {
-            padding: 1.5rem;
-        }
-        .project-info h3 {
-            font-size: 0.7rem;
-            color: #d0f0d0;
-            margin-bottom: 0.5rem;
-        }
-        .project-info p {
-            color: #9bc09b;
-            font-size: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        .project-tags {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
-        }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .project-info { padding: 1.2rem 1.3rem 1.3rem; }
+        .project-info h3 { font-size: clamp(0.55rem, 1.8vw, 0.65rem); color: #d0f0d0; margin-bottom: 0.4rem; }
+        .project-info p { color: #8aad8a; font-size: clamp(0.4rem, 1.3vw, 0.47rem); margin-bottom: 0.9rem; line-height: 2; }
+        .project-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.9rem; }
         .project-tags span {
-            background: rgba(30, 70, 30, 0.6);
-            border: 1px solid #3d7a3d;
-            padding: 0.25rem 0.6rem;
-            border-radius: 15px;
-            font-size: 0.4rem;
-            color: #b0f0b0;
+            background: rgba(28,68,28,0.5); border: 1px solid rgba(61,122,61,0.48);
+            padding: 0.2rem 0.55rem; border-radius: 14px;
+            font-size: clamp(0.34rem, 1vw, 0.38rem); color: #b0f0b0;
         }
         .btn-view {
             background: linear-gradient(135deg, #1a4a1a, #0d2b0d);
-            border: 1.5px solid #4caf4c;
-            color: #d0ffd0;
-            padding: 0.6rem 1.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: var(--pixel-font);
-            font-size: 0.5rem;
-            transition: 0.3s;
+            border: 1px solid rgba(76,175,76,0.55); color: #d0ffd0;
+            padding: 0.55rem 1.3rem; border-radius: 6px;
+            cursor: pointer; font-family: var(--pixel-font);
+            font-size: clamp(0.4rem, 1.3vw, 0.47rem);
+            transition: background 0.22s, box-shadow 0.22s, transform 0.18s;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 36px;
         }
-        .btn-view:hover {
-            background: #2d6a2d;
-            box-shadow: 0 0 25px rgba(76, 175, 76, 0.5);
-            transform: scale(1.05);
-            color: #fff;
-        }
+        .btn-view:hover { background: #2d6a2d; box-shadow: 0 0 18px rgba(76,175,76,0.38); transform: scale(1.04); color: #fff; }
+        .btn-view:active { transform: scale(0.98); }
 
-        .project-detail {
-            padding-top: 6rem;
-            min-height: 100vh;
+        /* ── STAGGER CARD ANIMATION ── */
+        .card-animated {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.42s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
         }
+        .card-animated.card-visible { opacity: 1; transform: translateY(0); }
+
+        /* ── PROJECT DETAIL ── */
+        .project-detail { padding-top: 5.5rem; min-height: 100vh; }
         .back-btn {
-            background: rgba(40, 100, 40, 0.5);
-            border: 1px solid #4caf4c;
-            color: #b0f0b0;
-            padding: 0.5rem 1.2rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: var(--pixel-font);
-            font-size: 0.5rem;
-            margin-bottom: 2rem;
-            transition: 0.3s;
+            background: rgba(38,96,38,0.38); border: 1px solid rgba(76,175,76,0.42);
+            color: #b0f0b0; padding: 0.48rem 1.1rem; border-radius: 6px;
+            cursor: pointer; font-family: var(--pixel-font);
+            font-size: clamp(0.42rem, 1.4vw, 0.48rem); margin-bottom: 1.8rem;
+            transition: background 0.22s, color 0.22s;
+            -webkit-tap-highlight-color: transparent; min-height: 36px;
         }
-        .back-btn:hover {
-            background: #2d6a2d;
-            color: #fff;
-        }
-        .detail-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            align-items: start;
-        }
+        .back-btn:hover { background: #2d6a2d; color: #fff; }
+        .detail-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.8rem; align-items: start; }
+        @media (max-width: 768px) { .detail-layout { grid-template-columns: 1fr; } }
         .detail-video {
-            background: rgba(10, 30, 10, 0.6);
-            backdrop-filter: blur(18px);
-            border: 1px solid rgba(50, 120, 50, 0.35);
-            border-radius: 16px;
-            overflow: hidden;
+            background: rgba(10,28,10,0.6); backdrop-filter: blur(18px);
+            border: 1px solid rgba(50,120,50,0.32); border-radius: 16px; overflow: hidden;
         }
         .detail-info {
-            background: rgba(10, 30, 10, 0.6);
-            backdrop-filter: blur(18px);
-            border: 1px solid rgba(50, 120, 50, 0.35);
-            border-radius: 16px;
-            padding: 2rem;
+            background: rgba(10,28,10,0.6); backdrop-filter: blur(18px);
+            border: 1px solid rgba(50,120,50,0.32); border-radius: 16px; padding: 1.8rem;
         }
         .detail-info h1 {
-            font-size: 1.2rem;
-            color: #d0ffd0;
-            margin-bottom: 1rem;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
             background: linear-gradient(180deg, #d0ffd0, #4caf4c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.75rem;
         }
-        .detail-info .category-label {
-            color: #7fa37f;
-            font-size: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        .detail-info .description {
-            color: #9bc09b;
-            font-size: 0.55rem;
-            line-height: 2;
-            margin-bottom: 1.5rem;
-        }
-        .detail-info .features {
-            list-style: none;
-            margin-bottom: 1.5rem;
-        }
-        .detail-info .features li {
-            color: #8fbf8f;
-            font-size: 0.5rem;
-            padding: 0.3rem 0;
-            padding-left: 1rem;
-            position: relative;
-        }
-        .detail-info .features li::before {
-            content: '>';
-            position: absolute;
-            left: 0;
-            color: #4caf4c;
-        }
-        .detail-tags {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        .detail-tags span {
-            background: rgba(30, 70, 30, 0.6);
-            border: 1px solid #3d7a3d;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.4rem;
-            color: #b0f0b0;
-        }
+        .detail-info .category-label { color: #7fa37f; font-size: 0.46rem; margin-bottom: 0.9rem; }
+        .detail-info .description { color: #9bc09b; font-size: 0.5rem; line-height: 2; margin-bottom: 1.3rem; }
+        .detail-info .features { list-style: none; margin-bottom: 1.3rem; }
+        .detail-info .features li { color: #8fbf8f; font-size: 0.46rem; padding: 0.28rem 0 0.28rem 1rem; position: relative; }
+        .detail-info .features li::before { content: '>'; position: absolute; left: 0; color: var(--green-bright); }
+        .detail-tags { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+        .detail-tags span { background: rgba(28,68,28,0.6); border: 1px solid #3d7a3d; padding: 0.28rem 0.75rem; border-radius: 14px; font-size: 0.38rem; color: #b0f0b0; }
 
-        @media (max-width: 768px) {
-            .detail-layout {
-                grid-template-columns: 1fr;
-            }
+        /* ── FOOTER ── */
+        .footer { padding: 2.5rem 1.5rem; border-top: 1px solid rgba(50,120,50,0.2); text-align: center; }
+        .footer-credits { display: flex; flex-direction: column; align-items: center; gap: 0.55rem; }
+        .footer-line { color: #607a60; font-size: clamp(0.38rem, 1.2vw, 0.42rem); line-height: 2.2; }
+        .gothic-link {
+            font-family: var(--gothic-font); font-size: 1.1rem; color: #7fcc7f;
+            text-decoration: none; letter-spacing: 0.03em;
+            transition: color 0.22s, text-shadow 0.22s;
         }
+        .gothic-link:hover { color: #bcf0bc; text-shadow: 0 0 14px rgba(76,175,76,0.55); }
 
-        .footer {
-            padding: 2rem 0;
-            border-top: 1px solid rgba(50, 120, 50, 0.3);
-            text-align: center;
+        /* ── RESPONSIVE HELPERS ── */
+        @media (max-width: 480px) {
+            .projects-grid { gap: 1.2rem; }
+            .project-info { padding: 1rem 1.1rem 1.1rem; }
+            .detail-info { padding: 1.3rem; }
+            .footer { padding: 2rem 1rem; }
         }
     </style>
 </head>
 <body>
 
-    <div id="loadingScreen">
-        <div style="text-align:center;">
-            <div class="loader-ring"></div>
-            <div class="loader-text">Dr4yk</div>
-        </div>
+<div id="loadingScreen">
+    <div style="text-align:center;">
+        <div class="loader-ring"></div>
+        <div class="loader-text">Dr4yk</div>
     </div>
+</div>
 
-    <div class="bg-gradient"></div>
-    <div class="stars-container" id="starsContainer"></div>
+<div id="overlay"></div>
 
-    <nav class="navbar">
-        <div class="nav-container">
-            <a class="nav-logo" onclick="navigateTo('home')">Dr4yk</a>
+<div class="bg-gradient"></div>
+<div class="stars-container" id="starsContainer"></div>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <span class="nav-logo" onclick="navigateTo('home')">Dr4yk</span>
+        <div class="nav-right">
             <ul class="nav-links" id="navLinks">
-                <li><button class="nav-link active" onclick="navigateTo('home')">Home</button></li>
-                <li><button class="nav-link" onclick="navigateTo('vfx')">VFX</button></li>
+                <li><button class="nav-link active" onclick="navigateTo('home')" data-i18n="nav.home">Home</button></li>
+                <li><button class="nav-link" onclick="navigateTo('vfx')" data-i18n="nav.vfx">VFX</button></li>
             </ul>
-            <button class="nav-toggle" onclick="toggleMenu()">
+            <div class="lang-toggle">
+                <button class="lang-btn active" id="btnEn" onclick="setLang('en')">EN</button>
+                <div class="lang-sep"></div>
+                <button class="lang-btn" id="btnPt" onclick="setLang('pt')">PT</button>
+            </div>
+            <button class="nav-toggle" id="navToggle" onclick="toggleMenu()" aria-label="Menu">
                 <span></span><span></span><span></span>
             </button>
         </div>
-    </nav>
-
-    <div id="home" class="page active">
-        <section class="hero">
-            <div>
-                <h1 class="hero-title">Dr4yk Portfolio</h1>
-                <p class="hero-subtitle">Roblox Studio Developer • VFX Artist</p>
-                <span class="scroll-text">Scroll down to explore</span>
-                <div class="scroll-indicator"><div class="scroll-dot"></div></div>
-            </div>
-        </section>
-        <section style="padding: 4rem 1.5rem;">
-            <div class="container" style="padding-top:0;">
-                <h2 class="section-title">Explore My Work</h2>
-                <div class="cards-grid">
-                    <div class="category-card" onclick="navigateTo('vfx')">
-                        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="60" height="60"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8" stroke-dasharray="4 4"/></svg></div>
-                        <h3>VFX</h3><p>Explosions, slashes, flashes and visual effects.</p><span class="card-tag">Visual Effects</span>
-                    </div>
-                </div>
-            </div>
-        </section>
     </div>
+</nav>
 
-    <div id="vfx" class="page">
-        <div class="container">
-            <div class="page-header"><h1>VFX</h1><p>Explosions, slashes, flashes and visual effects crafted with Roblox Studio.</p></div>
-            <div class="projects-grid">
-                
-                <!-- 1. LIGHT EXPLOSION -->
-                <div class="project-card">
-                    <div class="video-container"><iframe src="https://www.youtube.com/embed/qYroc-tyiYY" allowfullscreen></iframe></div>
-                    <div class="project-info"><h3>Light Explosion</h3><p>Bright light explosion with radiant energy burst.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj1')">View Project</button></div>
+<!-- HOME -->
+<div id="home" class="page active">
+    <section class="hero">
+        <div class="hero-inner">
+            <h1 class="hero-title">Dr4yk Portfolio</h1>
+            <p class="hero-subtitle" data-i18n="hero.subtitle">Roblox Studio Developer • VFX Artist</p>
+            <p class="scroll-text" data-i18n="hero.scroll">Scroll down to explore</p>
+            <div class="scroll-indicator"><div class="scroll-dot"></div></div>
+        </div>
+    </section>
+    <section style="padding: 1rem 1.5rem 4rem;">
+        <div style="max-width:1200px;margin:0 auto;">
+            <h2 class="section-title" data-i18n="home.explore">Explore My Work</h2>
+            <div class="cards-grid">
+                <div class="category-card card-animated" onclick="navigateTo('vfx')">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="52" height="52">
+                            <circle cx="12" cy="12" r="3"/>
+                            <circle cx="12" cy="12" r="8" stroke-dasharray="4 4"/>
+                        </svg>
+                    </div>
+                    <h3 data-i18n="nav.vfx">VFX</h3>
+                    <p data-i18n="card.vfx.desc">Explosions, slashes, flashes and visual effects.</p>
+                    <span class="card-tag" data-i18n="card.vfx.tag">Visual Effects</span>
                 </div>
-
-                <!-- 2. BLUE EXPLOSION -->
-                <div class="project-card">
-                    <div class="video-container"><iframe src="https://www.youtube.com/embed/dAtfd93IjyQ" allowfullscreen></iframe></div>
-                    <div class="project-info"><h3>Blue Explosion</h3><p>Intense blue energy explosion with shockwave rings.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj2')">View Project</button></div>
-                </div>
-
-                <!-- 3. PIXEL SLASH -->
-                <div class="project-card">
-                    <div class="video-container"><iframe src="https://www.youtube.com/embed/w3HQ52XY2tQ" allowfullscreen></iframe></div>
-                    <div class="project-info"><h3>Pixel Slash</h3><p>Blue slash with pixelated texture effect.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj3')">View Project</button></div>
-                </div>
-
-                <!-- 4. BLUE SLASH -->
-                <div class="project-card">
-                    <div class="video-container"><iframe src="https://www.youtube.com/embed/olfdtwetT9I" allowfullscreen></iframe></div>
-                    <div class="project-info"><h3>Blue Slash</h3><p>Clean blue energy slash with trailing particles.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj4')">View Project</button></div>
-                </div>
-
-                <!-- 5. BIG EXPLOSION -->
-                <div class="project-card">
-                    <div class="video-container"><iframe src="https://www.youtube.com/embed/jAhoBx99FN0" allowfullscreen></iframe></div>
-                    <div class="project-info"><h3>Big Explosion</h3><p>Massive explosion with screen shake and debris.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj5')">View Project</button></div>
-                </div>
-
-                <!-- 6. SMOOTH EXPLOSION -->
-                <div class="project-card">
-                    <div class="video-container"><iframe src="https://www.youtube.com/embed/Q01qfoqsKlA" allowfullscreen></iframe></div>
-                    <div class="project-info"><h3>Smooth Explosion</h3><p>Fluid explosion with smooth particle transitions.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj6')">View Project</button></div>
-                </div>
-
-                <!-- 7. BLACK FLASH -->
-                <div class="project-card">
-                    <div class="video-container"><iframe src="https://www.youtube.com/embed/sBBuv8_83yI" allowfullscreen></iframe></div>
-                    <div class="project-info"><h3>Black Flash (Kokusen)</h3><p>JJK-style Black Flash with dark energy burst.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj7')">View Project</button></div>
-                </div>
-
             </div>
         </div>
+    </section>
+</div>
+
+<!-- VFX -->
+<div id="vfx" class="page">
+    <div class="container">
+        <div class="page-header">
+            <h1 data-i18n="nav.vfx">VFX</h1>
+            <p data-i18n="vfx.desc">Explosions, slashes, flashes and visual effects crafted with Roblox Studio.</p>
+        </div>
+        <div class="vfx-disclaimer">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/>
+            </svg>
+            <span data-i18n="vfx.disclaimer">The videos below may take a moment to load — this is normal. Please be patient while they buffer. Thank you!</span>
+        </div>
+        <div class="projects-grid" id="vfxGrid">
+            <div class="project-card card-animated"><div class="video-container"><iframe src="https://www.youtube.com/embed/qYroc-tyiYY" allowfullscreen loading="lazy"></iframe></div><div class="project-info"><h3 data-i18n="proj1.title">Light Explosion</h3><p data-i18n="proj1.desc">Bright light explosion with radiant energy burst.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj1')" data-i18n="btn.view">View Project</button></div></div>
+            <div class="project-card card-animated"><div class="video-container"><iframe src="https://www.youtube.com/embed/dAtfd93IjyQ" allowfullscreen loading="lazy"></iframe></div><div class="project-info"><h3 data-i18n="proj2.title">Blue Explosion</h3><p data-i18n="proj2.desc">Intense blue energy explosion with shockwave rings.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj2')" data-i18n="btn.view">View Project</button></div></div>
+            <div class="project-card card-animated"><div class="video-container"><iframe src="https://www.youtube.com/embed/w3HQ52XY2tQ" allowfullscreen loading="lazy"></iframe></div><div class="project-info"><h3 data-i18n="proj3.title">Pixel Slash</h3><p data-i18n="proj3.desc">Blue slash with pixelated texture effect.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj3')" data-i18n="btn.view">View Project</button></div></div>
+            <div class="project-card card-animated"><div class="video-container"><iframe src="https://www.youtube.com/embed/olfdtwetT9I" allowfullscreen loading="lazy"></iframe></div><div class="project-info"><h3 data-i18n="proj4.title">Blue Slash</h3><p data-i18n="proj4.desc">Clean blue energy slash with trailing particles.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj4')" data-i18n="btn.view">View Project</button></div></div>
+            <div class="project-card card-animated"><div class="video-container"><iframe src="https://www.youtube.com/embed/jAhoBx99FN0" allowfullscreen loading="lazy"></iframe></div><div class="project-info"><h3 data-i18n="proj5.title">Big Explosion</h3><p data-i18n="proj5.desc">Massive explosion with screen shake and debris.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj5')" data-i18n="btn.view">View Project</button></div></div>
+            <div class="project-card card-animated"><div class="video-container"><iframe src="https://www.youtube.com/embed/Q01qfoqsKlA" allowfullscreen loading="lazy"></iframe></div><div class="project-info"><h3 data-i18n="proj6.title">Smooth Explosion</h3><p data-i18n="proj6.desc">Fluid explosion with smooth particle transitions.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj6')" data-i18n="btn.view">View Project</button></div></div>
+            <div class="project-card card-animated"><div class="video-container"><iframe src="https://www.youtube.com/embed/sBBuv8_83yI" allowfullscreen loading="lazy"></iframe></div><div class="project-info"><h3 data-i18n="proj7.title">Black Flash (Kokusen)</h3><p data-i18n="proj7.desc">JJK-style Black Flash with dark energy burst.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj7')" data-i18n="btn.view">View Project</button></div></div>
+        </div>
     </div>
+</div>
 
-    <!-- PROJECT DETAIL PAGES -->
-    <div id="proj1" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')">< BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube.com/embed/qYroc-tyiYY" allowfullscreen></iframe></div></div><div class="detail-info"><h1>Light Explosion</h1><p class="category-label">VFX</p><p class="description">Bright light explosion with radiant energy that illuminates the entire area.</p><ul class="features"><li>Radiant light burst</li><li>Dynamic lighting</li><li>Energy particles</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
-    <div id="proj2" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')">< BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube.com/embed/dAtfd93IjyQ" allowfullscreen></iframe></div></div><div class="detail-info"><h1>Blue Explosion</h1><p class="category-label">VFX</p><p class="description">Intense blue energy explosion with expanding shockwave rings.</p><ul class="features"><li>Blue energy core</li><li>Shockwave rings</li><li>Particle burst</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
-    <div id="proj3" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')">< BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube.com/embed/w3HQ52XY2tQ" allowfullscreen></iframe></div></div><div class="detail-info"><h1>Pixel Slash</h1><p class="category-label">VFX</p><p class="description">Blue slash with pixelated texture for a retro game feel.</p><ul class="features"><li>Pixelated texture</li><li>Blue energy trail</li><li>Retro style</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
-    <div id="proj4" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')">< BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube.com/embed/olfdtwetT9I" allowfullscreen></iframe></div></div><div class="detail-info"><h1>Blue Slash</h1><p class="category-label">VFX</p><p class="description">Clean blue energy slash with trailing particles.</p><ul class="features"><li>Blue energy arc</li><li>Particle trail</li><li>Smooth animation</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
-    <div id="proj5" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')">< BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube.com/embed/jAhoBx99FN0" allowfullscreen></iframe></div></div><div class="detail-info"><h1>Big Explosion</h1><p class="category-label">VFX</p><p class="description">Massive explosion with debris, smoke, and screen shake.</p><ul class="features"><li>Large blast radius</li><li>Debris particles</li><li>Screen shake</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
-    <div id="proj6" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')">< BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube.com/embed/Q01qfoqsKlA" allowfullscreen></iframe></div></div><div class="detail-info"><h1>Smooth Explosion</h1><p class="category-label">VFX</p><p class="description">Fluid explosion with smooth particle transitions and fire.</p><ul class="features"><li>Smooth particles</li><li>Fire effects</li><li>Seamless loop</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
-    <div id="proj7" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')">< BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube.com/embed/sBBuv8_83yI" allowfullscreen></iframe></div></div><div class="detail-info"><h1>Black Flash (Kokusen)</h1><p class="category-label">VFX</p><p class="description">JJK-inspired Black Flash with dark energy distortion.</p><ul class="features"><li>Dark energy burst</li><li>Space distortion</li><li>Impact flash</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
+<!-- DETAIL PAGES -->
+<div id="proj1" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')" data-i18n="btn.back">&lt; BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube.com/embed/qYroc-tyiYY" allowfullscreen></iframe></div></div><div class="detail-info"><h1 data-i18n="proj1.title">Light Explosion</h1><p class="category-label">VFX</p><p class="description" data-i18n="proj1.detail">Bright light explosion with radiant energy that illuminates the entire area.</p><ul class="features"><li data-i18n="proj1.f1">Radiant light burst</li><li data-i18n="proj1.f2">Dynamic lighting</li><li data-i18n="proj1.f3">Energy particles</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
+<div id="proj2" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')" data-i18n="btn.back">&lt; BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube.com/embed/dAtfd93IjyQ" allowfullscreen></iframe></div></div><div class="detail-info"><h1 data-i18n="proj2.title">Blue Explosion</h1><p class="category-label">VFX</p><p class="description" data-i18n="proj2.detail">Intense blue energy explosion with expanding shockwave rings.</p><ul class="features"><li data-i18n="proj2.f1">Blue energy core</li><li data-i18n="proj2.f2">Shockwave rings</li><li data-i18n="proj2.f3">Particle burst</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
+<div id="proj3" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')" data-i18n="btn.back">&lt; BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube.com/embed/w3HQ52XY2tQ" allowfullscreen></iframe></div></div><div class="detail-info"><h1 data-i18n="proj3.title">Pixel Slash</h1><p class="category-label">VFX</p><p class="description" data-i18n="proj3.detail">Blue slash with pixelated texture for a retro game feel.</p><ul class="features"><li data-i18n="proj3.f1">Pixelated texture</li><li data-i18n="proj3.f2">Blue energy trail</li><li data-i18n="proj3.f3">Retro style</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
+<div id="proj4" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')" data-i18n="btn.back">&lt; BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube.com/embed/olfdtwetT9I" allowfullscreen></iframe></div></div><div class="detail-info"><h1 data-i18n="proj4.title">Blue Slash</h1><p class="category-label">VFX</p><p class="description" data-i18n="proj4.detail">Clean blue energy slash with trailing particles.</p><ul class="features"><li data-i18n="proj4.f1">Blue energy arc</li><li data-i18n="proj4.f2">Particle trail</li><li data-i18n="proj4.f3">Smooth animation</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
+<div id="proj5" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')" data-i18n="btn.back">&lt; BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube.com/embed/jAhoBx99FN0" allowfullscreen></iframe></div></div><div class="detail-info"><h1 data-i18n="proj5.title">Big Explosion</h1><p class="category-label">VFX</p><p class="description" data-i18n="proj5.detail">Massive explosion with debris, smoke, and screen shake.</p><ul class="features"><li data-i18n="proj5.f1">Large blast radius</li><li data-i18n="proj5.f2">Debris particles</li><li data-i18n="proj5.f3">Screen shake</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
+<div id="proj6" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')" data-i18n="btn.back">&lt; BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube.com/embed/Q01qfoqsKlA" allowfullscreen></iframe></div></div><div class="detail-info"><h1 data-i18n="proj6.title">Smooth Explosion</h1><p class="category-label">VFX</p><p class="description" data-i18n="proj6.detail">Fluid explosion with smooth particle transitions and fire.</p><ul class="features"><li data-i18n="proj6.f1">Smooth particles</li><li data-i18n="proj6.f2">Fire effects</li><li data-i18n="proj6.f3">Seamless loop</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
+<div id="proj7" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')" data-i18n="btn.back">&lt; BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube.com/embed/sBBuv8_83yI" allowfullscreen></iframe></div></div><div class="detail-info"><h1 data-i18n="proj7.title">Black Flash (Kokusen)</h1><p class="category-label">VFX</p><p class="description" data-i18n="proj7.detail">JJK-inspired Black Flash with dark energy distortion.</p><ul class="features"><li data-i18n="proj7.f1">Dark energy burst</li><li data-i18n="proj7.f2">Space distortion</li><li data-i18n="proj7.f3">Impact flash</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
 
-    <footer class="footer"></footer>
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-credits">
+        <p class="footer-line" id="footerCredits1"></p>
+        <p class="footer-line" id="footerCredits2"></p>
+    </div>
+</footer>
 
-    <script>
-        const starsContainer = document.getElementById('starsContainer');
-        const MAX_STARS = 80;
-        let currentStars = [];
-
-        function createStar() {
-            if (currentStars.length >= MAX_STARS) return;
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            const size = Math.random() * 5 + 2;
-            star.style.setProperty('--size', size + 'px');
-            const lifetime = Math.random() * 3 + 2;
-            star.style.setProperty('--lifetime', lifetime + 's');
-            const glow = Math.random() * 4 + 1;
-            star.style.setProperty('--glow', glow + 'px');
-            const colors = ['#fff', '#e0ffe0', '#b0f0b0', '#8fdf8f', '#c0ffc0', '#a0e0a0'];
-            star.style.setProperty('--color', colors[Math.floor(Math.random() * colors.length)]);
-            starsContainer.appendChild(star);
-            currentStars.push(star);
-            setTimeout(() => {
-                if (star.parentNode) { star.remove(); currentStars = currentStars.filter(s => s !== star); }
-                createStar();
-            }, lifetime * 1000);
+<script>
+    const STRINGS = {
+        en: {
+            "nav.home": "Home", "nav.vfx": "VFX",
+            "hero.subtitle": "Roblox Studio Developer • VFX Artist",
+            "hero.scroll": "Scroll down to explore",
+            "home.explore": "Explore My Work",
+            "card.vfx.desc": "Explosions, slashes, flashes and visual effects.",
+            "card.vfx.tag": "Visual Effects",
+            "vfx.desc": "Explosions, slashes, flashes and visual effects crafted with Roblox Studio.",
+            "vfx.disclaimer": "The videos below may take a moment to load — this is normal. Please be patient while they buffer. Thank you!",
+            "btn.view": "View Project", "btn.back": "< BACK",
+            "proj1.title":"Light Explosion","proj1.desc":"Bright light explosion with radiant energy burst.","proj1.detail":"Bright light explosion with radiant energy that illuminates the entire area.","proj1.f1":"Radiant light burst","proj1.f2":"Dynamic lighting","proj1.f3":"Energy particles",
+            "proj2.title":"Blue Explosion","proj2.desc":"Intense blue energy explosion with shockwave rings.","proj2.detail":"Intense blue energy explosion with expanding shockwave rings.","proj2.f1":"Blue energy core","proj2.f2":"Shockwave rings","proj2.f3":"Particle burst",
+            "proj3.title":"Pixel Slash","proj3.desc":"Blue slash with pixelated texture effect.","proj3.detail":"Blue slash with pixelated texture for a retro game feel.","proj3.f1":"Pixelated texture","proj3.f2":"Blue energy trail","proj3.f3":"Retro style",
+            "proj4.title":"Blue Slash","proj4.desc":"Clean blue energy slash with trailing particles.","proj4.detail":"Clean blue energy slash with trailing particles.","proj4.f1":"Blue energy arc","proj4.f2":"Particle trail","proj4.f3":"Smooth animation",
+            "proj5.title":"Big Explosion","proj5.desc":"Massive explosion with screen shake and debris.","proj5.detail":"Massive explosion with debris, smoke, and screen shake.","proj5.f1":"Large blast radius","proj5.f2":"Debris particles","proj5.f3":"Screen shake",
+            "proj6.title":"Smooth Explosion","proj6.desc":"Fluid explosion with smooth particle transitions.","proj6.detail":"Fluid explosion with smooth particle transitions and fire.","proj6.f1":"Smooth particles","proj6.f2":"Fire effects","proj6.f3":"Seamless loop",
+            "proj7.title":"Black Flash (Kokusen)","proj7.desc":"JJK-style Black Flash with dark energy burst.","proj7.detail":"JJK-inspired Black Flash with dark energy distortion.","proj7.f1":"Dark energy burst","proj7.f2":"Space distortion","proj7.f3":"Impact flash",
+            "footer.by": "Portfolio by", "footer.credits": "Credits to", "footer.for": "for organizing the repository on GitHub and contributing to the visual of this site."
+        },
+        pt: {
+            "nav.home": "Início", "nav.vfx": "VFX",
+            "hero.subtitle": "Desenvolvedor Roblox Studio • Artista VFX",
+            "hero.scroll": "Role para explorar",
+            "home.explore": "Explore meu trabalho",
+            "card.vfx.desc": "Explosões, cortes, flashes e efeitos visuais.",
+            "card.vfx.tag": "Efeitos Visuais",
+            "vfx.desc": "Explosões, cortes, flashes e efeitos visuais criados no Roblox Studio.",
+            "vfx.disclaimer": "Os vídeos abaixo podem demorar um momento para carregar — isso é normal. Por favor, tenha paciência enquanto carregam. Obrigado!",
+            "btn.view": "Ver Projeto", "btn.back": "< VOLTAR",
+            "proj1.title":"Explosão de Luz","proj1.desc":"Explosão de luz brilhante com liberação de energia radiante.","proj1.detail":"Explosão de luz brilhante com energia radiante que ilumina toda a área.","proj1.f1":"Explosão de luz radiante","proj1.f2":"Iluminação dinâmica","proj1.f3":"Partículas de energia",
+            "proj2.title":"Explosão Azul","proj2.desc":"Explosão de energia azul intensa com anéis de onda de choque.","proj2.detail":"Explosão de energia azul intensa com anéis de choque em expansão.","proj2.f1":"Núcleo de energia azul","proj2.f2":"Anéis de choque","proj2.f3":"Explosão de partículas",
+            "proj3.title":"Corte Pixelado","proj3.desc":"Corte azul com efeito de textura pixelada.","proj3.detail":"Corte azul com textura pixelada para visual retrô.","proj3.f1":"Textura pixelada","proj3.f2":"Rastro de energia azul","proj3.f3":"Estilo retrô",
+            "proj4.title":"Corte Azul","proj4.desc":"Corte de energia azul limpo com partículas de rastro.","proj4.detail":"Corte de energia azul limpo com partículas de rastro.","proj4.f1":"Arco de energia azul","proj4.f2":"Rastro de partículas","proj4.f3":"Animação suave",
+            "proj5.title":"Grande Explosão","proj5.desc":"Explosão massiva com tremor de tela e detritos.","proj5.detail":"Explosão massiva com detritos, fumaça e tremor de tela.","proj5.f1":"Grande raio de explosão","proj5.f2":"Partículas de detritos","proj5.f3":"Tremor de tela",
+            "proj6.title":"Explosão Suave","proj6.desc":"Explosão fluida com transições de partículas suaves.","proj6.detail":"Explosão fluida com transições de partículas suaves e fogo.","proj6.f1":"Partículas suaves","proj6.f2":"Efeitos de fogo","proj6.f3":"Loop sem cortes",
+            "proj7.title":"Black Flash (Kokusen)","proj7.desc":"Black Flash estilo JJK com explosão de energia sombria.","proj7.detail":"Black Flash inspirado em JJK com distorção de energia sombria.","proj7.f1":"Explosão de energia sombria","proj7.f2":"Distorção espacial","proj7.f3":"Flash de impacto",
+            "footer.by": "Portfólio por", "footer.credits": "Créditos a", "footer.for": "por organizar o repositório no GitHub e contribuir no visual deste site."
         }
+    };
 
-        for (let i = 0; i < MAX_STARS; i++) setTimeout(() => createStar(), i * 120);
+    let lang = localStorage.getItem('dr4yk_lang') || 'en';
+    let busy = false;
 
-        setTimeout(() => document.getElementById('loadingScreen').classList.add('hidden'), 1500);
+    function t(k) { return STRINGS[lang][k] || STRINGS['en'][k] || k; }
 
-        function navigateTo(pageName) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            var target = document.getElementById(pageName);
-            if (target) target.classList.add('active');
-            window.history.pushState(null, null, pageName === 'home' ? '/' : '#' + pageName);
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-                if (link.textContent.toLowerCase() === pageName.toLowerCase() || (pageName === 'home' && link.textContent.toLowerCase() === 'home')) link.classList.add('active');
-            });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            document.getElementById('navLinks').classList.remove('open');
-        }
-
-        function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
-
-        window.addEventListener('popstate', function() {
-            var hash = window.location.hash.replace('#', '');
-            navigateTo(hash || 'home');
+    function applyLang(l) {
+        lang = l;
+        localStorage.setItem('dr4yk_lang', l);
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const k = el.getAttribute('data-i18n');
+            if (k) el.textContent = t(k);
         });
+        document.getElementById('btnEn').classList.toggle('active', l === 'en');
+        document.getElementById('btnPt').classList.toggle('active', l === 'pt');
+        document.documentElement.lang = l === 'pt' ? 'pt-BR' : 'en';
+        document.getElementById('footerCredits1').innerHTML =
+            t('footer.credits') + ' <a class="gothic-link" href="https://guns.lol/zaqv43" target="_blank" rel="noopener">Zaqv43</a> ' + t('footer.for');
+        document.getElementById('footerCredits2').innerHTML =
+            t('footer.by') + ' <a class="gothic-link" href="https://www.roblox.com/users/5362892693/profile" target="_blank" rel="noopener">Dr4yk</a>';
+    }
 
-        var hash = window.location.hash.replace('#', '');
-        if (hash && document.getElementById(hash)) navigateTo(hash);
-    </script>
+    function setLang(l) { applyLang(l); }
+
+    /* ── TRANSITION & NAVIGATION ── */
+    const overlay = document.getElementById('overlay');
+
+    function showOverlay(cb) {
+        overlay.classList.add('blocking');
+        overlay.style.transition = 'opacity 0.2s ease';
+        overlay.style.opacity = '1';
+        setTimeout(cb, 210);
+    }
+
+    function hideOverlay() {
+        overlay.style.transition = 'opacity 0.28s ease';
+        overlay.style.opacity = '0';
+        setTimeout(() => { overlay.classList.remove('blocking'); busy = false; }, 300);
+    }
+
+    function staggerCards(pageEl) {
+        const cards = pageEl.querySelectorAll('.card-animated');
+        cards.forEach((c, i) => {
+            c.classList.remove('card-visible');
+            c.style.transitionDelay = '0s';
+        });
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                cards.forEach((c, i) => {
+                    c.style.transitionDelay = (i * 0.07) + 's';
+                    c.classList.add('card-visible');
+                });
+            });
+        });
+    }
+
+    function navigateTo(pageName) {
+        if (busy) return;
+        busy = true;
+        document.getElementById('navLinks').classList.remove('open');
+
+        showOverlay(() => {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const target = document.getElementById(pageName);
+            if (target) {
+                target.classList.add('active');
+                staggerCards(target);
+            }
+            window.scrollTo({ top: 0, behavior: 'instant' });
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                const key = link.getAttribute('data-i18n');
+                link.classList.toggle('active',
+                    (pageName === 'home' && key === 'nav.home') ||
+                    (pageName === 'vfx'  && key === 'nav.vfx')
+                );
+            });
+
+            hideOverlay();
+        });
+    }
+
+    function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
+
+    /* ── STARS ── */
+    const starsContainer = document.getElementById('starsContainer');
+    let currentStars = [];
+    const MAX_STARS = 75;
+
+    function createStar() {
+        if (currentStars.length >= MAX_STARS) return;
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%`;
+        const size = Math.random() * 5 + 2;
+        const lifetime = Math.random() * 3 + 2;
+        const glow = Math.random() * 4 + 1;
+        const colors = ['#fff','#e0ffe0','#b0f0b0','#8fdf8f','#c0ffc0','#a0e0a0'];
+        star.style.setProperty('--size', size + 'px');
+        star.style.setProperty('--lifetime', lifetime + 's');
+        star.style.setProperty('--glow', glow + 'px');
+        star.style.setProperty('--color', colors[Math.floor(Math.random() * colors.length)]);
+        starsContainer.appendChild(star);
+        currentStars.push(star);
+        setTimeout(() => {
+            star.remove();
+            currentStars = currentStars.filter(s => s !== star);
+            createStar();
+        }, lifetime * 1000);
+    }
+
+    for (let i = 0; i < MAX_STARS; i++) setTimeout(createStar, i * 130);
+
+    /* ── INIT ── */
+    setTimeout(() => document.getElementById('loadingScreen').classList.add('hidden'), 1500);
+    applyLang(lang);
+
+    staggerCards(document.getElementById('home'));
+</script>
 </body>
 </html>
