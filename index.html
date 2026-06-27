@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr4yk Portfolio | Roblox Studio Developer</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="loadingScreen">
+    <div style="text-align:center;">
+        <div class="loader-ring"></div>
+        <div class="loader-text">Dr4yk</div>
+    </div>
+</div>
+
+<div id="overlay"></div>
+
+<div class="bg-gradient"></div>
+<div class="stars-container" id="starsContainer"></div>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <span class="nav-logo" onclick="navigateTo('home')">Dr4yk</span>
+        <div class="nav-right">
+            <ul class="nav-links" id="navLinks">
+                <li><button class="nav-link active" onclick="navigateTo('home')" data-i18n="nav.home">Home</button></li>
+                <li><button class="nav-link" onclick="navigateTo('vfx')" data-i18n="nav.vfx">VFX</button></li>
+            </ul>
+            <div class="lang-toggle">
+                <button class="lang-btn active" id="btnEn" onclick="setLang('en')">EN</button>
+                <div class="lang-sep"></div>
+                <button class="lang-btn" id="btnPt" onclick="setLang('pt')">PT</button>
+            </div>
+            <button class="nav-toggle" id="navToggle" onclick="toggleMenu()" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- HOME -->
+<div id="home" class="page active">
+    <section class="hero">
+        <div class="hero-inner">
+            <h1 class="hero-title">Dr4yk Portfolio</h1>
+            <p class="hero-subtitle" data-i18n="hero.subtitle">Roblox Studio Developer • VFX Artist</p>
+        </div>
+    </section>
+    <section style="padding: 1rem 1.5rem 4rem;">
+        <div style="max-width:1200px;margin:0 auto;">
+            <h2 class="section-title" data-i18n="home.explore">Explore My Work</h2>
+            <div class="cards-grid">
+                <div class="category-card card-animated" onclick="navigateTo('vfx')">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="52" height="52">
+                            <circle cx="12" cy="12" r="3"/>
+                            <circle cx="12" cy="12" r="8" stroke-dasharray="4 4"/>
+                        </svg>
+                    </div>
+                    <h3 data-i18n="nav.vfx">VFX</h3>
+                    <p data-i18n="card.vfx.desc">Explosions, slashes, flashes and visual effects.</p>
+                    <span class="card-tag" data-i18n="card.vfx.tag">Visual Effects</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- VFX -->
+<div id="vfx" class="page">
+    <div class="container">
+        <div class="page-header">
+            <h1 data-i18n="nav.vfx">VFX</h1>
+            <p data-i18n="vfx.desc">Explosions, slashes, flashes and visual effects crafted with Roblox Studio.</p>
+        </div>
+        <div class="vfx-disclaimer">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/>
+            </svg>
+            <span data-i18n="vfx.disclaimer">The videos below may take a moment to load — this is normal. Please be patient while they buffer. Thank you!</span>
+        </div>
+        <div class="projects-grid" id="vfxGrid">
+            <div class="project-card card-animated"><div class="video-container"><iframe src="https://www.youtube-nocookie.com/embed/qYroc-tyiYY?rel=0&modestbranding=1" allowfullscreen loading="lazy"></iframe></div><div class="project-info"><h3 data-i18n="proj1.title">Light Explosion</h3><p data-i18n="proj1.desc">Bright light explosion with radiant energy burst.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj1')" data-i18n="btn.view">View Project</button></div></div>
+            <div class="project-card card-animated"><div class="video-container"><iframe src="https://www.youtube-nocookie.com/embed/dAtfd93IjyQ?rel=0&modestbranding=1" allowfullscreen loading="lazy"></iframe></div><div class="project-info"><h3 data-i18n="proj2.title">Blue Explosion</h3><p data-i18n="proj2.desc">Intense blue energy explosion with shockwave rings.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj2')" data-i18n="btn.view">View Project</button></div></div>
+            <div class="project-card card-animated"><div class="video-container"><iframe src="https://www.youtube-nocookie.com/embed/w3HQ52XY2tQ?rel=0&modestbranding=1" allowfullscreen loading="lazy"></iframe></div><div class="project-info"><h3 data-i18n="proj3.title">Pixel Slash</h3><p data-i18n="proj3.desc">Blue slash with pixelated texture effect.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj3')" data-i18n="btn.view">View Project</button></div></div>
+            <div class="project-card card-animated"><div class="video-container"><iframe src="https://www.youtube-nocookie.com/embed/olfdtwetT9I?rel=0&modestbranding=1" allowfullscreen loading="lazy"></iframe></div><div class="project-info"><h3 data-i18n="proj4.title">Blue Slash</h3><p data-i18n="proj4.desc">Clean blue energy slash with trailing particles.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj4')" data-i18n="btn.view">View Project</button></div></div>
+            <div class="project-card card-animated"><div class="video-container"><iframe src="https://www.youtube-nocookie.com/embed/jAhoBx99FN0?rel=0&modestbranding=1" allowfullscreen loading="lazy"></iframe></div><div class="project-info"><h3 data-i18n="proj5.title">Big Explosion</h3><p data-i18n="proj5.desc">Massive explosion with screen shake and debris.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj5')" data-i18n="btn.view">View Project</button></div></div>
+            <div class="project-card card-animated"><div class="video-container"><iframe src="https://www.youtube-nocookie.com/embed/Q01qfoqsKlA?rel=0&modestbranding=1" allowfullscreen loading="lazy"></iframe></div><div class="project-info"><h3 data-i18n="proj6.title">Smooth Explosion</h3><p data-i18n="proj6.desc">Fluid explosion with smooth particle transitions.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj6')" data-i18n="btn.view">View Project</button></div></div>
+            <div class="project-card card-animated"><div class="video-container"><iframe src="https://www.youtube-nocookie.com/embed/sBBuv8_83yI?rel=0&modestbranding=1" allowfullscreen loading="lazy"></iframe></div><div class="project-info"><h3 data-i18n="proj7.title">Black Flash (Kokusen)</h3><p data-i18n="proj7.desc">JJK-style Black Flash with dark energy burst.</p><div class="project-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div><button class="btn-view" onclick="navigateTo('proj7')" data-i18n="btn.view">View Project</button></div></div>
+        </div>
+    </div>
+</div>
+
+<!-- DETAIL PAGES -->
+<div id="proj1" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')" data-i18n="btn.back">&lt; BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube-nocookie.com/embed/qYroc-tyiYY?rel=0&modestbranding=1" allowfullscreen></iframe></div></div><div class="detail-info"><h1 data-i18n="proj1.title">Light Explosion</h1><p class="category-label">VFX</p><p class="description" data-i18n="proj1.detail">Bright light explosion with radiant energy that illuminates the entire area.</p><ul class="features"><li data-i18n="proj1.f1">Radiant light burst</li><li data-i18n="proj1.f2">Dynamic lighting</li><li data-i18n="proj1.f3">Energy particles</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
+<div id="proj2" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')" data-i18n="btn.back">&lt; BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube-nocookie.com/embed/dAtfd93IjyQ?rel=0&modestbranding=1" allowfullscreen></iframe></div></div><div class="detail-info"><h1 data-i18n="proj2.title">Blue Explosion</h1><p class="category-label">VFX</p><p class="description" data-i18n="proj2.detail">Intense blue energy explosion with expanding shockwave rings.</p><ul class="features"><li data-i18n="proj2.f1">Blue energy core</li><li data-i18n="proj2.f2">Shockwave rings</li><li data-i18n="proj2.f3">Particle burst</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
+<div id="proj3" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')" data-i18n="btn.back">&lt; BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube-nocookie.com/embed/w3HQ52XY2tQ?rel=0&modestbranding=1" allowfullscreen></iframe></div></div><div class="detail-info"><h1 data-i18n="proj3.title">Pixel Slash</h1><p class="category-label">VFX</p><p class="description" data-i18n="proj3.detail">Blue slash with pixelated texture for a retro game feel.</p><ul class="features"><li data-i18n="proj3.f1">Pixelated texture</li><li data-i18n="proj3.f2">Blue energy trail</li><li data-i18n="proj3.f3">Retro style</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
+<div id="proj4" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')" data-i18n="btn.back">&lt; BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube-nocookie.com/embed/olfdtwetT9I?rel=0&modestbranding=1" allowfullscreen></iframe></div></div><div class="detail-info"><h1 data-i18n="proj4.title">Blue Slash</h1><p class="category-label">VFX</p><p class="description" data-i18n="proj4.detail">Clean blue energy slash with trailing particles.</p><ul class="features"><li data-i18n="proj4.f1">Blue energy arc</li><li data-i18n="proj4.f2">Particle trail</li><li data-i18n="proj4.f3">Smooth animation</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
+<div id="proj5" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')" data-i18n="btn.back">&lt; BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube-nocookie.com/embed/jAhoBx99FN0?rel=0&modestbranding=1" allowfullscreen></iframe></div></div><div class="detail-info"><h1 data-i18n="proj5.title">Big Explosion</h1><p class="category-label">VFX</p><p class="description" data-i18n="proj5.detail">Massive explosion with debris, smoke, and screen shake.</p><ul class="features"><li data-i18n="proj5.f1">Large blast radius</li><li data-i18n="proj5.f2">Debris particles</li><li data-i18n="proj5.f3">Screen shake</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
+<div id="proj6" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')" data-i18n="btn.back">&lt; BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube-nocookie.com/embed/Q01qfoqsKlA?rel=0&modestbranding=1" allowfullscreen></iframe></div></div><div class="detail-info"><h1 data-i18n="proj6.title">Smooth Explosion</h1><p class="category-label">VFX</p><p class="description" data-i18n="proj6.detail">Fluid explosion with smooth particle transitions and fire.</p><ul class="features"><li data-i18n="proj6.f1">Smooth particles</li><li data-i18n="proj6.f2">Fire effects</li><li data-i18n="proj6.f3">Seamless loop</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
+<div id="proj7" class="page"><div class="container project-detail"><button class="back-btn" onclick="navigateTo('vfx')" data-i18n="btn.back">&lt; BACK</button><div class="detail-layout"><div class="detail-video"><div class="video-container"><iframe src="https://www.youtube-nocookie.com/embed/sBBuv8_83yI?rel=0&modestbranding=1" allowfullscreen></iframe></div></div><div class="detail-info"><h1 data-i18n="proj7.title">Black Flash (Kokusen)</h1><p class="category-label">VFX</p><p class="description" data-i18n="proj7.detail">JJK-inspired Black Flash with dark energy distortion.</p><ul class="features"><li data-i18n="proj7.f1">Dark energy burst</li><li data-i18n="proj7.f2">Space distortion</li><li data-i18n="proj7.f3">Impact flash</li></ul><div class="detail-tags"><span>Lua</span><span>Roblox Studio</span><span>VFX</span></div></div></div></div></div>
+
+<!-- SECRET PAGE -->
+<div id="proj_secret" class="page">
+    <div style="width: 100%; height: 100vh; background: #000; display: flex; align-items: center; justify-content: center;">
+        <button class="secret-button" onclick="navigateTo('terminal')" style="background: #000; border: 2px solid #00ff88; color: #00ff88; padding: 1rem 2rem; font-family: 'Press Start 2P', cursive; font-size: 0.6rem; cursor: pointer; letter-spacing: 2px; transition: all 0.3s ease;">
+            [ENTER SYSTEM]
+        </button>
+    </div>
+</div>
+
+<!-- TERMINAL PAGE -->
+<div id="terminal" class="page">
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="terminal-title">ZAQV OS v1.0</div>
+            <div class="terminal-controls">
+                <button onclick="navigateTo('proj_secret')" class="terminal-close">×</button>
+            </div>
+        </div>
+        <div class="terminal-content" id="terminalContent">
+            <div class="terminal-line">ZAQV OS - Welcome!</div>
+            <div class="terminal-line">================================</div>
+            <div class="terminal-line" id="terminalStatus"></div>
+        </div>
+        <div class="terminal-input">
+            <span class="terminal-prompt">root@zaqv:~# </span>
+            <input type="text" id="terminalInput" class="terminal-input-field" placeholder="" />
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-credits">
+        <p class="footer-line" id="footerCredits1"></p>
+        <p class="footer-line" id="footerCredits2"></p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
