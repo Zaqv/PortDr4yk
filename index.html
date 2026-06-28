@@ -6,8 +6,18 @@
     <title>Dr4yk Portfolio | Roblox Studio Developer</title>
     <script>
         (function() {
-            var r = new URLSearchParams(window.location.search).get('r');
-            if (r) window.history.replaceState(null, null, r);
+            var known = ['home','vfx','proj1','proj2','proj3','proj4','proj5','proj6','proj7','secret','terminal'];
+            var segs = location.pathname.split('/').filter(Boolean);
+            var baseParts = [];
+            for (var i = 0; i < segs.length; i++) {
+                if (known.includes(segs[i])) break;
+                baseParts.push(segs[i]);
+            }
+            var base = document.createElement('base');
+            base.href = location.origin + (baseParts.length ? '/' + baseParts.join('/') : '') + '/';
+            document.head.insertBefore(base, document.head.firstChild);
+            var r = new URLSearchParams(location.search).get('r');
+            if (r) history.replaceState(null, null, r);
         })();
     </script>
     <link rel="icon" type="image/png" href="favicon.png">
