@@ -16,7 +16,8 @@ const STRINGS = {
         "proj5.title":"Big Explosion","proj5.desc":"Massive explosion with screen shake and debris.","proj5.detail":"Massive explosion with debris, smoke, and screen shake.","proj5.f1":"Large blast radius","proj5.f2":"Debris particles","proj5.f3":"Screen shake",
         "proj6.title":"Smooth Explosion","proj6.desc":"Fluid explosion with smooth particle transitions.","proj6.detail":"Fluid explosion with smooth particle transitions and fire.","proj6.f1":"Smooth particles","proj6.f2":"Fire effects","proj6.f3":"Seamless loop",
         "proj7.title":"Black Flash (Kokusen)","proj7.desc":"JJK-style Black Flash with dark energy burst.","proj7.detail":"JJK-inspired Black Flash with dark energy distortion.","proj7.f1":"Dark energy burst","proj7.f2":"Space distortion","proj7.f3":"Impact flash",
-        "footer.by": "Portfolio by", "footer.credits": "Credits to", "footer.for": "for organizing the repository on GitHub and contributing to the visual of this site."
+        "footer.by": "Portfolio by", "footer.credits": "Credits to", "footer.for": "for organizing the repository on GitHub and contributing to the visual of this site.",
+        "views.label": "views"
     },
     pt: {
         "nav.home": "Início", "nav.vfx": "VFX",
@@ -35,7 +36,8 @@ const STRINGS = {
         "proj5.title":"Grande Explosão","proj5.desc":"Explosão massiva com tremor de tela e detritos.","proj5.detail":"Explosão massiva com detritos, fumaça e tremor de tela.","proj5.f1":"Grande raio de explosão","proj5.f2":"Partículas de detritos","proj5.f3":"Tremor de tela",
         "proj6.title":"Explosão Suave","proj6.desc":"Explosão fluida com transições de partículas suaves.","proj6.detail":"Explosão fluida com transições de partículas suaves e fogo.","proj6.f1":"Partículas suaves","proj6.f2":"Efeitos de fogo","proj6.f3":"Loop sem cortes",
         "proj7.title":"Black Flash (Kokusen)","proj7.desc":"Black Flash estilo JJK com explosão de energia sombria.","proj7.detail":"Black Flash inspirado em JJK com distorção de energia sombria.","proj7.f1":"Explosão de energia sombria","proj7.f2":"Distorção espacial","proj7.f3":"Flash de impacto",
-        "footer.by": "Portfólio por", "footer.credits": "Créditos a", "footer.for": "por organizar o repositório no GitHub e contribuir no visual deste site."
+        "footer.by": "Portfólio por", "footer.credits": "Créditos a", "footer.for": "por organizar o repositório no GitHub e contribuir no visual deste site.",
+        "views.label": "views"
     }
 };
 
@@ -348,3 +350,63 @@ observer.observe(document.body, { attributes: true, subtree: true });
 setTimeout(() => document.getElementById('loadingScreen').classList.add('hidden'), 1500);
 applyLang(lang);
 staggerCards(document.getElementById('home'));
+
+const VIEWS_NS = 'portdr4yk';
+const VIEWS_KEY = 'project-views';
+const VIEWS_API = 'https://api.countapi.xyz';
+
+function formatViewCount(n) {
+    if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+    if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+    return n.toString();
+}
+
+async function fetchViewCount() {
+    try {
+        const res = await fetch(`${VIEWS_API}/get/${VIEWS_NS}/${VIEWS_KEY}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        const el = document.getElementById('viewsCounter');
+        if (el && typeof data.value === 'number') {
+            el.textContent = formatViewCount(data.value);
+        }
+    } catch (_) {}
+}
+
+async function incrementAndShowViewCount() {
+    try {
+        const res = await fetch(`${VIEWS_API}/hit/${VIEWS_NS}/${VIEWS_KEY}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        const el = document.getElementById('viewsCounter');
+        if (el && typeof data.value === 'number') {
+            el.textContent = formatViewCount(data.value);
+        }
+    } catch (_) {}
+}
+
+function openProject(id) {
+    const base = window.location.href.split('?')[0].split('#')[0];
+    window.open(base + '?proj=' + id, '_blank');
+}
+
+function handleProjectParam() {
+    const params = new URLSearchParams(window.location.search);
+    const proj = params.get('proj');
+    if (!proj) return;
+    const validProjects = ['proj1','proj2','proj3','proj4','proj5','proj6','proj7'];
+    if (!validProjects.includes(proj)) return;
+    const cleanUrl = window.location.href.split('?')[0];
+    window.history.replaceState({}, '', cleanUrl);
+    incrementAndShowViewCount();
+    setTimeout(() => navigateTo(proj), 200);
+}
+
+const _origNavigateTo = navigateTo;
+navigateTo = function(pageName) {
+    _origNavigateTo(pageName);
+    if (pageName === 'home') fetchViewCount();
+};
+
+fetchViewCount();
+handleProjectParam();
