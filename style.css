@@ -161,6 +161,7 @@ body {
 .hero {
     min-height: 100vh; display: flex; align-items: center;
     justify-content: center; text-align: center; padding: 6rem 1.5rem 3rem;
+    position: relative;
 }
 .hero-inner { max-width: 700px; }
 .hero-title {
@@ -621,6 +622,53 @@ body {
 
 .container.project-detail {
     animation: slideInUp 0.5s ease-out;
+}
+
+.views-badge {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: rgba(0, 0, 0, 0.75);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    border-radius: 20px;
+    padding: 0.38rem 0.85rem;
+    font-family: var(--pixel-font);
+    font-size: 0.4rem;
+    color: var(--text-secondary);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 14px rgba(0, 255, 136, 0.08);
+    transition: all 0.3s ease;
+    user-select: none;
+    line-height: 1;
+}
+.views-badge svg {
+    flex-shrink: 0;
+    color: var(--primary);
+    opacity: 0.8;
+}
+.views-badge:hover {
+    border-color: rgba(0, 255, 136, 0.55);
+    box-shadow: 0 0 22px rgba(0, 255, 136, 0.18);
+    color: var(--primary);
+}
+#viewsCounter {
+    color: var(--primary);
+    font-size: 0.44rem;
+    min-width: 1.5ch;
+    text-align: center;
+}
+@media (max-width: 480px) {
+    .views-badge {
+        bottom: 1.2rem;
+        right: 1rem;
+        font-size: 0.36rem;
+        padding: 0.3rem 0.7rem;
+        gap: 0.35rem;
+    }
+    #viewsCounter { font-size: 0.38rem; }
 }
 
 .footer { 
