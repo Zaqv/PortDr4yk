@@ -12,16 +12,14 @@
             color: #00ff88;
             font-family: 'Press Start 2P', cursive;
             min-height: 100vh;
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             text-align: center;
             padding: 2rem;
         }
-        .container { max-width: 600px; }
         .glitch {
             font-size: clamp(0.8rem, 3vw, 1.1rem);
-            color: #00ff88;
             text-shadow: 0 0 20px rgba(0,255,136,0.8), 0 0 40px rgba(0,255,136,0.4);
             margin-bottom: 2.5rem;
             line-height: 2.2;
@@ -35,7 +33,6 @@
         }
         #countdown {
             font-size: clamp(0.5rem, 2vw, 0.7rem);
-            color: #00ff88;
             text-shadow: 0 0 10px rgba(0,255,136,0.6);
         }
         .bar-wrap {
@@ -52,21 +49,18 @@
             box-shadow: 0 0 10px rgba(0,255,136,0.6);
             animation: drain 3s linear forwards;
         }
-        @keyframes drain {
-            from { width: 100%; }
-            to   { width: 0%; }
-        }
+        @keyframes drain { from { width: 100%; } to { width: 0%; } }
         @keyframes flicker {
             0%, 95%, 100% { opacity: 1; }
-            96%            { opacity: 0.4; }
-            97%            { opacity: 1; }
-            98%            { opacity: 0.2; }
-            99%            { opacity: 1; }
+            96% { opacity: 0.4; }
+            97% { opacity: 1; }
+            98% { opacity: 0.2; }
+            99% { opacity: 1; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div>
         <p class="glitch">VC NÃO DEVERIA<br>ESTAR AQUI &gt;:(&nbsp;</p>
         <p class="sub">te redirecionando para a pagina principal em</p>
         <p id="countdown">3 segundos...</p>
@@ -75,14 +69,21 @@
     <script>
         var l = window.location;
         var base = l.pathname.split('/').slice(0, 2).join('/');
-        var target = l.origin + base + '/?r=' + encodeURIComponent(l.pathname + l.search) + l.hash;
-        var n = 3;
-        var el = document.getElementById('countdown');
-        var iv = setInterval(function() {
-            n--;
-            el.textContent = n + ' segundo' + (n === 1 ? '...' : 's...');
-            if (n <= 0) { clearInterval(iv); l.replace(target); }
-        }, 1000);
+        var navEntry = performance.getEntriesByType('navigation')[0];
+        var navType = navEntry ? navEntry.type : (performance.navigation ? (performance.navigation.type === 1 ? 'reload' : 'navigate') : 'navigate');
+
+        if (navType === 'reload' || navType === 'back_forward') {
+            l.replace(l.origin + base + '/?r=' + encodeURIComponent(l.pathname + l.search) + l.hash);
+        } else {
+            document.body.style.display = 'flex';
+            var n = 3;
+            var el = document.getElementById('countdown');
+            var iv = setInterval(function() {
+                n--;
+                el.textContent = n + ' segundo' + (n === 1 ? '...' : 's...');
+                if (n <= 0) { clearInterval(iv); l.replace(l.origin + base + '/'); }
+            }, 1000);
+        }
     </script>
 </body>
 </html>
