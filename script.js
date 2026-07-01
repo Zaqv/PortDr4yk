@@ -48,13 +48,20 @@ const STRINGS = {
         "vfx.desc": "Explosions, slashes, flashes and visual effects crafted with Roblox Studio.",
         "vfx.disclaimer": "The videos below may take a moment to load — this is normal. Please be patient while they buffer. Thank you!",
         "btn.view": "View Project", "btn.back": "< BACK",
-        "proj1.title":"Light Explosion","proj1.desc":"Bright light explosion with radiant energy burst.","proj1.detail":"Bright light explosion with radiant energy that illuminates the entire area.","proj1.f1":"Radiant light burst","proj1.f2":"Dynamic lighting","proj1.f3":"Energy particles",
-        "proj2.title":"Blue Explosion","proj2.desc":"Intense blue energy explosion with shockwave rings.","proj2.detail":"Intense blue energy explosion with expanding shockwave rings.","proj2.f1":"Blue energy core","proj2.f2":"Shockwave rings","proj2.f3":"Particle burst",
-        "proj3.title":"Pixel Slash","proj3.desc":"Blue slash with pixelated texture effect.","proj3.detail":"Blue slash with pixelated texture for a retro game feel.","proj3.f1":"Pixelated texture","proj3.f2":"Blue energy trail","proj3.f3":"Retro style",
-        "proj4.title":"Blue Slash","proj4.desc":"Clean blue energy slash with trailing particles.","proj4.detail":"Clean blue energy slash with trailing particles.","proj4.f1":"Blue energy arc","proj4.f2":"Particle trail","proj4.f3":"Smooth animation",
-        "proj5.title":"Big Explosion","proj5.desc":"Massive explosion with screen shake and debris.","proj5.detail":"Massive explosion with debris, smoke, and screen shake.","proj5.f1":"Large blast radius","proj5.f2":"Debris particles","proj5.f3":"Screen shake",
-        "proj6.title":"Smooth Explosion","proj6.desc":"Fluid explosion with smooth particle transitions.","proj6.detail":"Fluid explosion with smooth particle transitions and fire.","proj6.f1":"Smooth particles","proj6.f2":"Fire effects","proj6.f3":"Seamless loop",
-        "proj7.title":"Black Flash (Kokusen)","proj7.desc":"JJK-style Black Flash with dark energy burst.","proj7.detail":"JJK-inspired Black Flash with dark energy distortion.","proj7.f1":"Dark energy burst","proj7.f2":"Space distortion","proj7.f3":"Impact flash",
+        "proj1.title":"Light Explosion","proj1.desc":"Bright light explosion with radiant energy burst.","proj1.detail":"Bright light explosion with radiant energy that illuminates the entire area[...]"
+        ,
+        "proj2.title":"Blue Explosion","proj2.desc":"Intense blue energy explosion with shockwave rings.","proj2.detail":"Intense blue energy explosion with expanding shockwave rings.","proj2.f1":"[...]"
+        ,
+        "proj3.title":"Pixel Slash","proj3.desc":"Blue slash with pixelated texture effect.","proj3.detail":"Blue slash with pixelated texture for a retro game feel.","proj3.f1":"Pixelated texture[...]"
+        ,
+        "proj4.title":"Blue Slash","proj4.desc":"Clean blue energy slash with trailing particles.","proj4.detail":"Clean blue energy slash with trailing particles.","proj4.f1":"Blue energy arc[...]"
+        ,
+        "proj5.title":"Big Explosion","proj5.desc":"Massive explosion with screen shake and debris.","proj5.detail":"Massive explosion with debris, smoke, and screen shake.","proj5.f1":"Large blas[...]"
+        ,
+        "proj6.title":"Smooth Explosion","proj6.desc":"Fluid explosion with smooth particle transitions.","proj6.detail":"Fluid explosion with smooth particle transitions and fire.","proj6.f1":"Sm[...]"
+        ,
+        "proj7.title":"Black Flash (Kokusen)","proj7.desc":"JJK-style Black Flash with dark energy burst.","proj7.detail":"JJK-inspired Black Flash with dark energy distortion.","proj7.f1":"Dark e[...]"
+        ,
         "footer.by": "Portfolio by", "footer.credits": "Credits to", "footer.for": "for organizing the repository on GitHub and contributing to the visual of this site."
     },
     pt: {
@@ -67,13 +74,20 @@ const STRINGS = {
         "vfx.desc": "Explosões, cortes, flashes e efeitos visuais criados no Roblox Studio.",
         "vfx.disclaimer": "Os vídeos abaixo podem demorar um momento para carregar — isso é normal. Por favor, tenha paciência enquanto carregam. Obrigado!",
         "btn.view": "Ver Projeto", "btn.back": "< VOLTAR",
-        "proj1.title":"Explosão de Luz","proj1.desc":"Explosão de luz brilhante com liberação de energia radiante.","proj1.detail":"Explosão de luz brilhante com energia radiante que ilumina toda a área.","proj1.f1":"Explosão de luz radiante","proj1.f2":"Iluminação dinâmica","proj1.f3":"Partículas de energia",
-        "proj2.title":"Explosão Azul","proj2.desc":"Explosão de energia azul intensa com anéis de onda de choque.","proj2.detail":"Explosão de energia azul intensa com anéis de choque em expansão.","proj2.f1":"Núcleo de energia azul","proj2.f2":"Anéis de choque","proj2.f3":"Explosão de partículas",
-        "proj3.title":"Corte Pixelado","proj3.desc":"Corte azul com efeito de textura pixelada.","proj3.detail":"Corte azul com textura pixelada para visual retrô.","proj3.f1":"Textura pixelada","proj3.f2":"Rastro de energia azul","proj3.f3":"Estilo retrô",
-        "proj4.title":"Corte Azul","proj4.desc":"Corte de energia azul limpo com partículas de rastro.","proj4.detail":"Corte de energia azul limpo com partículas de rastro.","proj4.f1":"Arco de energia azul","proj4.f2":"Rastro de partículas","proj4.f3":"Animação suave",
-        "proj5.title":"Grande Explosão","proj5.desc":"Explosão massiva com tremor de tela e detritos.","proj5.detail":"Explosão massiva com detritos, fumaça e tremor de tela.","proj5.f1":"Grande raio de explosão","proj5.f2":"Partículas de detritos","proj5.f3":"Tremor de tela",
-        "proj6.title":"Explosão Suave","proj6.desc":"Explosão fluida com transições de partículas suaves.","proj6.detail":"Explosão fluida com transições de partículas suaves e fogo.","proj6.f1":"Partículas suaves","proj6.f2":"Efeitos de fogo","proj6.f3":"Loop sem cortes",
-        "proj7.title":"Black Flash (Kokusen)","proj7.desc":"Black Flash estilo JJK com explosão de energia sombria.","proj7.detail":"Black Flash inspirado em JJK com distorção de energia sombria.","proj7.f1":"Explosão de energia sombria","proj7.f2":"Distorção espacial","proj7.f3":"Flash de impacto",
+        "proj1.title":"Explosão de Luz","proj1.desc":"Explosão de luz brilhante com liberação de energia radiante.","proj1.detail":"Explosão de luz brilhante com energia radiante que ilumina [...]"
+        ,
+        "proj2.title":"Explosão Azul","proj2.desc":"Explosão de energia azul intensa com anéis de onda de choque.","proj2.detail":"Explosão de energia azul intensa com anéis de choque em expa[...]","proj2.f1":"[...]"
+        ,
+        "proj3.title":"Corte Pixelado","proj3.desc":"Corte azul com efeito de textura pixelada.","proj3.detail":"Corte azul com textura pixelada para visual retrô.","proj3.f1":"Textura pixelada[,]..."
+        ,
+        "proj4.title":"Corte Azul","proj4.desc":"Corte de energia azul limpo com partículas de rastro.","proj4.detail":"Corte de energia azul limpo com partículas de rastro.","proj4.f1":"Arco de[...]"
+        ,
+        "proj5.title":"Grande Explosão","proj5.desc":"Explosão massiva com tremor de tela e detritos.","proj5.detail":"Explosão massiva com detritos, fumaça e tremor de tela.","proj5.f1":"Gran[...]"
+        ,
+        "proj6.title":"Explosão Suave","proj6.desc":"Explosão fluida com transições de partículas suaves.","proj6.detail":"Explosão fluida com transições de partículas suaves e fogo.","proj6.f1":"Pr[...]"
+        ,
+        "proj7.title":"Black Flash (Kokusen)","proj7.desc":"Black Flash estilo JJK com explosão de energia sombria.","proj7.detail":"Black Flash inspirado em JJK com distorção de energia sombri[...]","proj7.f1":"[...]"
+        ,
         "footer.by": "Portfólio por", "footer.credits": "Créditos a", "footer.for": "por organizar o repositório no GitHub e contribuir no visual deste site."
     }
 };
@@ -213,49 +227,6 @@ function createStar() {
 }
 
 for (let i = 0; i < MAX_STARS; i++) setTimeout(createStar, i * 130);
-
-// Easter Egg - Special Star
-let specialStarTriggered = false;
-let specialStarElement = null;
-
-function createSpecialStar() {
-    const star = document.createElement('div');
-    star.className = 'star';
-    star.id = 'special-star';
-    star.style.cssText = `left:${Math.random()*80 + 10}%;top:${Math.random()*60 + 10}%;cursor:pointer;z-index:1000;position:fixed;pointer-events:auto;`;
-    star.style.setProperty('--size', '18px');
-    star.style.setProperty('--lifetime', '10s');
-    star.style.setProperty('--glow', '14px');
-    star.style.setProperty('--color', '#0099ff');
-    star.style.filter = 'drop-shadow(0 0 25px #0099ff)';
-    star.style.animation = 'specialStarPulse 2s infinite ease-in-out';
-    star.style.opacity = '0.9';
-    star.style.pointerEvents = 'auto';
-    
-    star.onclick = (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        if (!specialStarTriggered) {
-            specialStarTriggered = true;
-            navigateTo('proj_secret');
-        }
-    };
-    
-    star.onmouseenter = () => {
-        star.style.filter = 'drop-shadow(0 0 45px #0099ff)';
-        star.style.transform = 'scale(2)';
-    };
-    
-    star.onmouseleave = () => {
-        star.style.filter = 'drop-shadow(0 0 25px #0099ff)';
-        star.style.transform = 'scale(1)';
-    };
-    
-    starsContainer.appendChild(star);
-    specialStarElement = star;
-}
-
-setTimeout(createSpecialStar, 2000);
 
 // Terminal System
 let terminalBooted = false;
