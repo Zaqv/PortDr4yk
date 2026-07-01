@@ -5,47 +5,78 @@
 ![JavaScript Badge](https://img.shields.io/badge/JavaScript-yellow?logo=javascript&logoColor=black)
 ![No Frameworks Badge](https://img.shields.io/badge/No%20Frameworks-lightgrey)
 
-A static one-page portfolio showcasing the work of **Dr4yk**, a Roblox Studio developer and VFX artist.  
-The site highlights creative projects, interactive features, and a clean design — all built with pure web technologies.
+A static one‑page portfolio showcasing the work of **Dr4yk**, a Roblox Studio developer and VFX artist.
+The site is built with plain HTML, CSS and JavaScript and includes a small SPA router, animations and a terminal easter‑egg.
+
+Demo: (adicione aqui o link do GitHub Pages ou do site hospedado)
+Screenshot:
+![screenshot](docs/screenshot.png) <!-- opcional: adicionar screenshot em docs/ -->
 
 ---
 
 ## ✨ Features
 
-- **Single Page Application (SPA)** navigation with fade transitions  
-- **Staggered animations** on cards for smooth visual flow  
-- **Dual language support** (EN/PT-BR) with preference saved in `localStorage`  
-- **Animated particle background** for dynamic visuals  
-- **Custom scrollbar** styling  
-- **Video loading warning** for better UX  
-- **VFX showcase section** with 7 embedded YouTube projects  
-- **Footer credits** in gothic font style  
+- Single Page navigation with smooth transitions
+- Staggered card animations and responsive layout
+- Dual language support (EN / PT‑BR), preference saved in localStorage
+- Animated star/particle background
+- Embedded YouTube project videos (VFX showcase)
+- Terminal-style easter‑egg (acessível via secret page)
+- No external JS frameworks — lightweight and easy to host
 
 ---
 
-## 👤 Author
+## 🛠️ Tecnologias / Technologies
 
-- **Dr4yk**  
-  Roblox Profile: [Dr4yk](https://www.roblox.com/users/5362892693/profile)
-
----
-
-## 🙌 Credits
-
-- **Zaqv43** — repository organization & visual contributions  
-  Profile: [Zaqv](https://guns.lol/zaqv43)
+- HTML5
+- CSS3 (custom properties, animations)
+- Vanilla JavaScript
+- Google Fonts: Press Start 2P, UnifrakturMaguntia
 
 ---
 
-## 🛠️ Technologies
+## 🚀 Como executar localmente / Run locally
 
-- **HTML5**  
-- **CSS3**  
-- **JavaScript (vanilla)**  
-- **Google Fonts**: Press Start 2P, UnifrakturMaguntia  
-- ⚡ No frameworks, no external dependencies
+1. Clone o repositório
+   git clone https://github.com/Zaqv/PortDr4yk.git
+
+2. Entre na pasta e rode um servidor simples (ex.: Python)
+   cd PortDr4yk
+   python -m http.server 8000
+
+3. Abra no navegador:
+   http://localhost:8000
+
+Obs: o site usa history API para rotas internas; servir via arquivo (file://) pode não funcionar corretamente — use um servidor local.
 
 ---
 
-## 📂 Project Structure
+## 📁 Estrutura do projeto / Project structure
 
+- index.html — SPA principal
+- style.css — estilos
+- script.js — lógica (navegação, animações, terminal)
+- README.md — este arquivo
+- favicon.png, assets/ — imagens e mídia (se houver)
+
+---
+
+## ✍️ Como contribuir / Contributing
+
+- Abra uma issue para propor mudanças ou reportar bugs
+- Para correções rápidas, crie uma branch com o seu fork e envie um PR
+- Mantenha o estilo de código (vanilla JS, CSS com variáveis)
+
+---
+
+## 👤 Autor / Credits
+
+- Portfolio by **Dr4yk** — https://www.roblox.com/users/5362892693/profile
+- Repository organization & visual contributions: **Zaqv43** — https://guns.lol/zaqv43
+
+---
+
+## Licença / License
+
+Escolha e adicione aqui a licença desejada (MIT, Apache‑2.0, etc.). Exemplo:
+MIT © Dr4yk
